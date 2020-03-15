@@ -11,7 +11,7 @@
     }
   ],
   "require": {
-    "php": "^7.2",
+    "php": "^7.3",
     "ext-gmp": "*",
     "ext-json": "*",
     "web-token/jwt-checker": "^2.0",
