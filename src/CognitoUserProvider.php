@@ -26,7 +26,9 @@ final class CognitoUserProvider implements UserProvider
         try {
             return $this->clientAppParser->parse($token);
         } catch (Exception $e) {
-
+            // If we cannot parse the token, that probably means the token is either invalid or
+            // it might be an access token. We'll try to validate it as an access token next
+            // and if that fails, we'll finally return null.
         }
 /*
         try {
