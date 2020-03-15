@@ -66,6 +66,15 @@ final class ClientAppTest extends TestCase
 
         self::assertInstanceOf(MyUser::class, $auth);
     }
+
+    public function test_invalid_token_will_return_null()
+    {
+        $provider = $this->container->make(CognitoUserProvider::class);
+
+        $auth = $provider->retrieveByCredentials(['cognito_token' => 'invalid']);
+
+        self::assertNull($auth);
+    }
 }
 
 class FakeClientAppRepository implements ClientAppRepository

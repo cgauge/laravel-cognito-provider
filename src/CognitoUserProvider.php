@@ -26,8 +26,7 @@ final class CognitoUserProvider implements UserProvider
         try {
             return $this->clientAppParser->parse($token);
         } catch (Exception $e) {
-var_dump($e->getMessage());
-exit;
+
         }
 /*
         try {
