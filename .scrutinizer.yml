@@ -1,0 +1,22 @@
+filter:
+  excluded_paths:
+    - "tests/"
+
+checks:
+  php:
+    code_rating: true
+    duplication: true
+
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
+    coverage:
+      tests:
+        override:
+          - command: './vendor/bin/phpunit --coverage-clover=clover.xml'
+            coverage:
+              file: 'clover.xml'
+              format: 'clover'
