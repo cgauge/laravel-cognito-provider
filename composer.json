@@ -35,7 +35,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Test\\CustomerGauge\\Cognito\\": "tests/"
+      "Tests\\CustomerGauge\\Cognito\\": "tests/"
     }
   }
 }

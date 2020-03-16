@@ -2,6 +2,7 @@
 
 namespace CustomerGauge\Cognito;
 
+use CustomerGauge\Cognito\Parsers\AccessTokenParser;
 use CustomerGauge\Cognito\Parsers\ClientAppParser;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -13,10 +14,10 @@ final class CognitoUserProvider implements UserProvider
 
     private $accessTokenParser;
 
-    public function __construct(ClientAppParser $clientAppParser/*, AccessTokenParser $accessTokenParser*/)
+    public function __construct(ClientAppParser $clientAppParser, AccessTokenParser $accessTokenParser)
     {
         $this->clientAppParser = $clientAppParser;
-//        $this->accessTokenParser = $accessTokenParser;
+        $this->accessTokenParser = $accessTokenParser;
     }
 
     public function retrieveByCredentials(array $credentials)
@@ -30,13 +31,15 @@ final class CognitoUserProvider implements UserProvider
             // it might be an access token. We'll try to validate it as an access token next
             // and if that fails, we'll finally return null.
         }
-/*
+
         try {
             return $this->accessTokenParser->parse($token);
         } catch (Exception $e) {
-
+            // The Laravel Authenticate Middleware implements the Chain Of Responsibility Pattern.
+            //  We need to return null and let the next Guard try to authenticate. If all Guards
+            // return null, then the middleware throws an AuthenticationException.
         }
-*/
+
         return null;
     }
 

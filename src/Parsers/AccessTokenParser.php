@@ -2,26 +2,26 @@
 
 namespace CustomerGauge\Cognito\Parsers;
 
-use CustomerGauge\Cognito\Contracts\ClientAppRepository;
+use CustomerGauge\Cognito\Contracts\UserFactory;
 use CustomerGauge\Cognito\TokenVerifier;
 use Illuminate\Contracts\Auth\Authenticatable;
 
-final class ClientAppParser
+final class AccessTokenParser
 {
     private $verifier;
 
-    private $repository;
+    private $factory;
 
-    public function __construct(TokenVerifier $verifier, ClientAppRepository $repository)
+    public function __construct(TokenVerifier $verifier, UserFactory $factory)
     {
         $this->verifier = $verifier;
-        $this->repository = $repository;
+        $this->factory = $factory;
     }
 
     public function parse(string $token): Authenticatable
     {
         $payload = $this->verifier->verify($token);
 
-        return $this->repository->find($payload);
+        return $this->factory->fromAccessToken($payload);
     }
 }
