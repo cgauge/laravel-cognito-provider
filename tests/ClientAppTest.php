@@ -3,9 +3,6 @@
 namespace Tests\CustomerGauge\Cognito;
 
 use CustomerGauge\Cognito\CognitoUserProvider;
-use CustomerGauge\Cognito\Contracts\ClientAppRepository;
-use Exception;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Tests\CustomerGauge\Cognito\Fixtures\MyUser;
 
 final class ClientAppTest extends TestCase
@@ -28,17 +25,5 @@ final class ClientAppTest extends TestCase
         $auth = $provider->retrieveByCredentials(['cognito_token' => 'invalid']);
 
         self::assertNull($auth);
-    }
-}
-
-class FakeClientAppRepository implements ClientAppRepository
-{
-    public function find(array $payload): Authenticatable
-    {
-        if ($payload['client_app'] === '555') {
-            return new MyUser;
-        }
-
-        throw new Exception();
     }
 }

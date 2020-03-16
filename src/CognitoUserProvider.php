@@ -2,22 +2,21 @@
 
 namespace CustomerGauge\Cognito;
 
-use CustomerGauge\Cognito\Parsers\AccessTokenParser;
-use CustomerGauge\Cognito\Parsers\ClientAppParser;
+use CustomerGauge\Cognito\Contracts\UserFactory;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 
 final class CognitoUserProvider implements UserProvider
 {
-    private $clientAppParser;
+    private $parser;
 
-    private $accessTokenParser;
+    private $factory;
 
-    public function __construct(ClientAppParser $clientAppParser, AccessTokenParser $accessTokenParser)
+    public function __construct(TokenParser $parser, UserFactory $factory)
     {
-        $this->clientAppParser = $clientAppParser;
-        $this->accessTokenParser = $accessTokenParser;
+        $this->parser = $parser;
+        $this->factory = $factory;
     }
 
     public function retrieveByCredentials(array $credentials)
@@ -25,22 +24,16 @@ final class CognitoUserProvider implements UserProvider
         $token = $credentials['cognito_token'];
 
         try {
-            return $this->clientAppParser->parse($token);
+            $payload = $this->parser->parse($token);
+
         } catch (Exception $e) {
-            // If we cannot parse the token, that probably means the token is either invalid or
-            // it might be an access token. We'll try to validate it as an access token next
-            // and if that fails, we'll finally return null.
+            // If we cannot parse the token, that probably means it's an invalid Token. Since
+            // the Authenticate Middleware implements a Chain Of Responsibility Pattern,
+            // we have to return null so that other Guards can try to authenticate.
+            return null;
         }
 
-        try {
-            return $this->accessTokenParser->parse($token);
-        } catch (Exception $e) {
-            // The Laravel Authenticate Middleware implements the Chain Of Responsibility Pattern.
-            //  We need to return null and let the next Guard try to authenticate. If all Guards
-            // return null, then the middleware throws an AuthenticationException.
-        }
-
-        return null;
+        return $this->factory->make($payload);
     }
 
     /** @phpstan ignore */

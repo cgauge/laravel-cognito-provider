@@ -22,6 +22,7 @@
   },
   "require-dev": {
     "illuminate/cache": "~7.1",
+    "illuminate/config": "~7.1",
     "illuminate/container": "~7.1",
     "phpunit/phpunit": "^9.0",
     "doctrine/coding-standard": "^6.0",
@@ -36,6 +37,13 @@
   "autoload-dev": {
     "psr-4": {
       "Tests\\CustomerGauge\\Cognito\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "CustomerGauge\\Cognito\\LaravelCognitoServiceProvider"
+      ]
     }
   }
 }

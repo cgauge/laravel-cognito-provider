@@ -14,7 +14,7 @@ use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 
-final class TokenVerifier
+final class TokenParser
 {
     private $keyResolver;
 
@@ -23,7 +23,7 @@ final class TokenVerifier
         $this->keyResolver = $keyResolver;
     }
 
-    public function verify(string $token)
+    public function parse(string $token)
     {
         $jws = $this->loadAndVerifyWithKeySet($token);
 

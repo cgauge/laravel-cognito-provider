@@ -3,9 +3,6 @@
 namespace Tests\CustomerGauge\Cognito;
 
 use CustomerGauge\Cognito\CognitoUserProvider;
-use CustomerGauge\Cognito\Contracts\UserFactory;
-use Exception;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Tests\CustomerGauge\Cognito\Fixtures\MyUser;
 
 final class AccessTokenTest extends TestCase
@@ -20,16 +17,15 @@ final class AccessTokenTest extends TestCase
 
         self::assertInstanceOf(MyUser::class, $auth);
     }
-}
 
-class FakeUserFactory implements UserFactory
-{
-    public function fromAccessToken(array $payload): Authenticatable
+    public function test_user_factory_can_return_null()
     {
-        if ($payload['id'] === 53) {
-            return new MyUser;
-        }
+        $token = $this->jwtToken(['id' => 54]);
 
-        throw new Exception;
+        $provider = $this->container->make(CognitoUserProvider::class);
+
+        $auth = $provider->retrieveByCredentials(['cognito_token' => $token]);
+
+        self::assertNull($auth);
     }
 }

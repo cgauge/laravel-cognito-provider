@@ -2,7 +2,6 @@
 
 namespace Tests\CustomerGauge\Cognito;
 
-use CustomerGauge\Cognito\Contracts\ClientAppRepository;
 use CustomerGauge\Cognito\Contracts\UserFactory;
 use CustomerGauge\Cognito\Issuer;
 use Illuminate\Cache\ArrayStore;
@@ -12,6 +11,7 @@ use Illuminate\Contracts\Cache\Repository as RepositoryContract;
 use Jose\Component\Core\JWKSet;
 use Jose\Easy\Build;
 use PHPUnit\Framework\TestCase as BaseTestCase;
+use Tests\CustomerGauge\Cognito\Fixtures\MyUserFactory;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -33,9 +33,7 @@ abstract class TestCase extends BaseTestCase
             return $repository;
         });
 
-        $container->bind(ClientAppRepository::class, FakeClientAppRepository::class);
-
-        $container->bind(UserFactory::class, FakeUserFactory::class);
+        $container->bind(UserFactory::class, MyUserFactory::class);
     }
 
     protected function jwtToken(array $claims): string

@@ -6,5 +6,5 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 interface UserFactory
 {
-    public function fromAccessToken(array $payload): Authenticatable;
+    public function make(array $payload): ?Authenticatable;
 }
