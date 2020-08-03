@@ -9,7 +9,7 @@ This library provides a CognitoUserProvider for Laravel.
 # Installation
 
 ```bash
-composer require customergauge/laravel-cognito-provider
+composer require customergauge/cognito
 ```
 
 # Usage
