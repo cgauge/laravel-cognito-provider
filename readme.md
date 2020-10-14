@@ -72,3 +72,21 @@ Cognito Environment Variables
 
 Configure the `auth` middleware at `App\Http\Kernel` with `'auth:cognito-token'`
 
+### UserFactory
+
+The last thing you'll need is to provide your own implementation of `UserFactory` and register it in a ServiceProvider.
+
+final class CognitoUserFactory implements UserFactory
+{
+    public function make(array $payload): ?Authenticatable
+    {
+        return new MyUserObject(
+            $payload['username'],
+            $payload['custom:my_custom_cognito_attribute'],
+        );
+    }
+}
+
+```
+$this->app->bind(CustomerGauge\Cognito\Contracts\UserFactory, App\Auth\CognitoUserFactory::class);
+```
