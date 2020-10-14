@@ -76,6 +76,7 @@ Configure the `auth` middleware at `App\Http\Kernel` with `'auth:cognito-token'`
 
 The last thing you'll need is to provide your own implementation of `UserFactory` and register it in a ServiceProvider.
 
+```
 final class CognitoUserFactory implements UserFactory
 {
     public function make(array $payload): ?Authenticatable
@@ -86,7 +87,9 @@ final class CognitoUserFactory implements UserFactory
         );
     }
 }
+```
 
+In the provider:
 ```
 $this->app->bind(CustomerGauge\Cognito\Contracts\UserFactory, App\Auth\CognitoUserFactory::class);
 ```
