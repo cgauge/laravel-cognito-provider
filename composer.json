@@ -11,21 +11,21 @@
     }
   ],
   "require": {
-    "php": "^7.3",
+    "php": ">=7.3",
     "ext-gmp": "*",
     "ext-json": "*",
     "web-token/jwt-checker": "^2.0",
     "web-token/jwt-core": "^2.0",
     "web-token/jwt-signature": "^2.0",
     "web-token/jwt-signature-algorithm-rsa": "^2.0",
-    "illuminate/contracts": "^7.1"
+    "illuminate/contracts": "^7.1 || ^8.0"
   },
   "require-dev": {
-    "illuminate/cache": "~7.1",
-    "illuminate/config": "~7.1",
-    "illuminate/container": "~7.1",
+    "illuminate/cache": "~7.1 || ^8.0",
+    "illuminate/config": "~7.1 || ^8.0",
+    "illuminate/container": "~7.1 || ^8.0",
     "phpunit/phpunit": "^9.0",
-    "doctrine/coding-standard": "^6.0",
+    "doctrine/coding-standard": "^6.0 || ^8.0",
     "phpstan/phpstan": "^0.12.4",
     "web-token/jwt-easy": "~2.0"
   },
