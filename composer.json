@@ -10,6 +10,8 @@
       "email": "deleugyn@gmail.com"
     }
   ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "require": {
     "php": ">=7.3",
     "ext-gmp": "*",
@@ -18,15 +20,15 @@
     "web-token/jwt-core": "^2.0",
     "web-token/jwt-signature": "^2.0",
     "web-token/jwt-signature-algorithm-rsa": "^2.0",
-    "illuminate/contracts": "^7.1 || ^8.0"
+    "illuminate/contracts": "^7.1 || ^8.0 || ^9.0"
   },
   "require-dev": {
-    "illuminate/cache": "~7.1 || ^8.0",
-    "illuminate/config": "~7.1 || ^8.0",
-    "illuminate/container": "~7.1 || ^8.0",
+    "illuminate/cache": "~7.1 || ^8.0 || ^9.0",
+    "illuminate/config": "~7.1 || ^8.0 || ^9.0",
+    "illuminate/container": "~7.1 || ^8.0 || ^9.0",
     "phpunit/phpunit": "^9.0",
     "doctrine/coding-standard": "^6.0 || ^8.0",
-    "phpstan/phpstan": "^0.12.4",
+    "phpstan/phpstan": "^1.0",
     "web-token/jwt-easy": "~2.0"
   },
   "autoload": {
