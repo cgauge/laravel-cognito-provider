@@ -4,6 +4,7 @@ namespace Tests\CustomerGauge\Cognito;
 
 use CustomerGauge\Cognito\Contracts\UserFactory;
 use CustomerGauge\Cognito\Issuer;
+use CustomerGauge\Cognito\Testing\TokenGenerator;
 use Illuminate\Cache\ArrayStore;
 use Illuminate\Cache\Repository;
 use Illuminate\Container\Container;
@@ -38,23 +39,8 @@ abstract class TestCase extends BaseTestCase
 
     protected function jwtToken(array $claims): string
     {
-        $jwk = JWKSet::createFromJson(file_get_contents(__DIR__ . '/Fixtures/jwt.key'));
+        $generator = TokenGenerator::fromFile(__DIR__ . '/Fixtures/jwt.key');
 
-        $time = time();
-
-        $builder = Build::jws()
-            ->exp($time + 3600)
-            ->iat($time)
-            ->nbf($time)
-            ->jti('token-id', true)
-            ->alg('RS256')
-            ->iss('https://cognito-idp.local.amazonaws.com/phpunit-pool-id')
-            ->sub('testing');
-
-        foreach ($claims as $key => $value) {
-            $builder->claim($key, $value, true);
-        }
-
-        return $builder->sign($jwk->get(0));
+        return $generator->sign($claims);
     }
 }
