@@ -22,12 +22,17 @@ final class TokenParser
     {
         $this->keyResolver = $keyResolver;
     }
-
-    public function parse(string $token)
+    
+    public function unverifiedPayload(string $token): array
     {
         $jws = $this->loadAndVerifyWithKeySet($token);
 
-        $payload = json_decode($jws->getPayload(), true);
+        return json_decode($jws->getPayload(), true);
+    }
+
+    public function parse(string $token)
+    {
+        $payload = $this->unverifiedPayload($token);
 
         $claimCheckerManager = new ClaimCheckerManager([
             new IssuerChecker([$this->keyResolver->issuer()->toString()]),
