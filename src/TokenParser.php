@@ -23,6 +23,9 @@ final class TokenParser
         $this->keyResolver = $keyResolver;
     }
     
+    /**
+     * This public method is useful for parsing the token from PHPUnit. It is not intended for production use.
+     */
     public function unverifiedPayload(string $token): array
     {
         $jws = $this->loadAndVerifyWithKeySet($token);
