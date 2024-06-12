@@ -3,7 +3,10 @@
 namespace CustomerGauge\Cognito\Testing;
 
 use Jose\Component\Core\JWKSet;
-use Jose\Easy\Build;
+use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Signature\Algorithm\RS256;
+use Jose\Component\Signature\JWSBuilder;
+use Jose\Component\Signature\Serializer\CompactSerializer;
 
 final class TokenGenerator
 {
@@ -33,19 +36,22 @@ final class TokenGenerator
     {
         $time = time();
 
-        $builder = Build::jws()
-            ->exp($time + 3600)
-            ->iat($time)
-            ->nbf($time)
-            ->jti($this->jti, true)
-            ->alg($this->algorithm)
-            ->iss($this->issuer)
-            ->sub($this->subject);
+        $algorithmManager = new AlgorithmManager([new RS256()]);
+        $jwsBuilder = new JWSBuilder($algorithmManager);
+        $payload = json_encode([
+            'iat' => $time,
+            'nbf' => $time,
+            'exp' => $time + 3600,
+            'iss' => $this->issuer,
+            'jti' => $this->jti,
+            'sub' => $this->subject,
+        ] + $attributes);
 
-        foreach ($attributes as $key => $value) {
-            $builder->claim($key, $value, true);
-        }
+        $jws = $jwsBuilder->create()
+            ->withPayload($payload)
+            ->addSignature($this->jwk->get(0), ['alg' => $this->algorithm])
+            ->build();
 
-        return $builder->sign($this->jwk->get(0));
+        return (new CompactSerializer())->serialize($jws);
     }
 }

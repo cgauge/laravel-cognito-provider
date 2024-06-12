@@ -16,20 +16,16 @@
     "php": ">=7.3",
     "ext-gmp": "*",
     "ext-json": "*",
-    "web-token/jwt-checker": "^2.0",
-    "web-token/jwt-core": "^2.0",
-    "web-token/jwt-signature": "^2.0",
-    "web-token/jwt-signature-algorithm-rsa": "^2.0",
+    "web-token/jwt-library": "^3.0",
     "illuminate/contracts": ">=7.1"
   },
   "require-dev": {
     "illuminate/cache": ">=7.1",
     "illuminate/config": ">=7.1",
     "illuminate/container": ">=7.1",
-    "phpunit/phpunit": "^9.0",
-    "doctrine/coding-standard": "^6.0 || ^8.0",
-    "phpstan/phpstan": "^1.0",
-    "web-token/jwt-easy": "~2.0"
+    "phpunit/phpunit": "^11.0",
+    "doctrine/coding-standard": "^12.0",
+    "phpstan/phpstan": "^1.0"
   },
   "autoload": {
     "psr-4": {
@@ -46,6 +42,11 @@
       "providers": [
         "CustomerGauge\\Cognito\\LaravelCognitoServiceProvider"
       ]
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   }
 }

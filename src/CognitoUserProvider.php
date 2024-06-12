@@ -55,4 +55,9 @@ final class CognitoUserProvider implements UserProvider
     public function updateRememberToken(Authenticatable $user, $token)
     {
     }
+
+    /** @phpstan-ignore-next-line */
+    public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false)
+    {
+    }
 }

@@ -29,4 +29,8 @@ class MyUser implements Authenticatable
     public function getRememberTokenName()
     {
     }
+
+    public function getAuthPasswordName()
+    {   
+    }
 }
