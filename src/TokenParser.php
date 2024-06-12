@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace CustomerGauge\Cognito;
 
@@ -14,16 +16,15 @@ use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 
+use function json_decode;
+
 final class TokenParser
 {
-    private $keyResolver;
-
-    public function __construct(KeyResolver $keyResolver)
+    public function __construct(private KeyResolver $keyResolver)
     {
-        $this->keyResolver = $keyResolver;
     }
 
-    public function parse(string $token)
+    public function parse(string $token): mixed
     {
         $jws = $this->loadAndVerifyWithKeySet($token);
 
@@ -31,7 +32,7 @@ final class TokenParser
 
         $claimCheckerManager = new ClaimCheckerManager([
             new IssuerChecker([$this->keyResolver->issuer()->toString()]),
-            new ExpirationTimeChecker,
+            new ExpirationTimeChecker(),
         ]);
 
         $claimCheckerManager->check($payload);

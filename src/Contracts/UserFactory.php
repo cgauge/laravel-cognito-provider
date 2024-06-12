@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace CustomerGauge\Cognito\Contracts;
 
@@ -6,5 +8,6 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 interface UserFactory
 {
-    public function make(array $payload): ?Authenticatable;
+    /** @param mixed[] $payload */
+    public function make(array $payload): Authenticatable|null;
 }

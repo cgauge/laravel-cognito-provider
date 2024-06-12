@@ -1,17 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace CustomerGauge\Cognito;
 
+use function sprintf;
+
 final class Issuer
 {
-    private $userPoolId;
-
-    private $region;
-
-    public function __construct(string $userPoolId, string $region)
+    public function __construct(private string $userPoolId, private string $region)
     {
-        $this->userPoolId = $userPoolId;
-        $this->region = $region;
     }
 
     public function toString(): string

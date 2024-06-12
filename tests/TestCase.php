@@ -9,8 +9,6 @@ use Illuminate\Cache\ArrayStore;
 use Illuminate\Cache\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Cache\Repository as RepositoryContract;
-use Jose\Component\Core\JWKSet;
-use Jose\Easy\Build;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Tests\CustomerGauge\Cognito\Fixtures\MyUserFactory;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace CustomerGauge\Cognito;
 
@@ -8,7 +10,7 @@ use Illuminate\Support\ServiceProvider;
 
 final class LaravelCognitoServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->registerIssuer();
 
@@ -30,7 +32,7 @@ final class LaravelCognitoServiceProvider extends ServiceProvider
 
     private function registerCognitoUserProvider(): void
     {
-        Auth::provider(CognitoUserProvider::class, function (Container $app) {
+        Auth::provider(CognitoUserProvider::class, static function (Container $app) {
             return $app->make(CognitoUserProvider::class);
         });
     }
