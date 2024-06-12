@@ -1,27 +1,32 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace CustomerGauge\Cognito;
 
 use Illuminate\Contracts\Cache\Repository;
+use InvalidArgumentException;
+
+use function file_get_contents;
 
 final class KeyResolver
 {
-    private $cache;
-
-    private $issuer;
-
-    public function __construct(Issuer $issuer, Repository $cache)
+    public function __construct(private Issuer $issuer, private Repository $cache)
     {
-        $this->issuer = $issuer;
-        $this->cache = $cache;
     }
 
     public function jwkset(): string
     {
         $url = $this->issuer->toString() . '/.well-known/jwks.json';
 
-        return $this->cache->remember('jwks', 7200, function() use ($url) {
-            return file_get_contents($url);
+        return $this->cache->remember('jwks', 7200, static function () use ($url) {
+            $content = file_get_contents($url);
+
+            if ($content === false) {
+                throw new InvalidArgumentException('Invalid JWKS file');
+            }
+
+            return $content;
         });
     }
 
